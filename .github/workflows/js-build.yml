@@ -41,6 +41,6 @@ jobs:
             jazle \
             npm install
       - name: Test
-        run: docker run -v$(pwd):/app jazle npm run test
+        run: docker run -v$(pwd):/app -e CI jazle npm run test
       - name: Lint
-        run: docker run -v$(pwd):/app jazle npm run lint
+        run: docker run -v$(pwd):/app -e CI jazle npm run lint
