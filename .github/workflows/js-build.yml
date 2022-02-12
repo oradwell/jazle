@@ -1,0 +1,46 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Build
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy .env
+        run: cp .env.dist .env
+      - name: Build container
+        run: docker build . -t jazle --target base
+      - name: Cache NPM
+        uses: actions/cache@v2
+        with:
+          path: /tmp/cache/.npm
+          key: ${{ runner.os }}-build-npm-${{ hashFiles('package*.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-npm-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install dependencies
+        env:
+          NPM_CONFIG_CACHE: /tmp/npm-cache
+        run: |
+          mkdir -p /tmp/npm-cache
+          chmod 777 /tmp/npm-cache
+          docker run -v$(pwd):/app \
+            -v/tmp/cache/.npm:${NPM_CONFIG_CACHE} \
+            -e NPM_CONFIG_CACHE \
+            jazle \
+            npm install
+      - name: Test
+        run: docker run -v$(pwd):/app -e CI jazle npm run test
+      - name: Lint
+        run: docker run -v$(pwd):/app -e CI jazle npm run lint
