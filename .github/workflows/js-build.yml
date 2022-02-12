@@ -11,12 +11,16 @@ permissions:
 
 jobs:
   test:
+    name: Build
     runs-on: ubuntu-20.04
+
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm install
+      - name: Copy .env
+        run: cp .env.dist .env
+      - name: Build container
+        run: docker build . -t jazle --target base
       - name: Test
-        run: npm run test
+        run: docker run jazle npm run test
       - name: Lint
-        run: npm run lint
+        run: docker run jazle npm run lint
