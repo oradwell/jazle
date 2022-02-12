@@ -1,7 +1,7 @@
 FROM node:16.14.0 AS base
+WORKDIR /app
 
 FROM base AS node_modules
-WORKDIR /app
 COPY package-lock.json package.json ./
 RUN npm install
 COPY . .

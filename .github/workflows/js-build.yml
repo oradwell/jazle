@@ -35,12 +35,12 @@ jobs:
         run: |
           mkdir -p /tmp/npm-cache
           chmod 777 /tmp/npm-cache
-          docker run -v$(pwd):/project \
+          docker run -v$(pwd):/app \
             -v/tmp/cache/.npm:${NPM_CONFIG_CACHE} \
             -e NPM_CONFIG_CACHE \
-            -w /project \
+            jazle \
             npm install
       - name: Test
-        run: docker run jazle npm run test
+        run: docker run -v$(pwd):/app jazle npm run test
       - name: Lint
-        run: docker run jazle npm run lint
+        run: docker run -v$(pwd):/app jazle npm run lint
