@@ -24,27 +24,5 @@ jobs:
         uses: github/codeql-action/init@v1
         with:
           languages: javascript
-#       - name: Build container
-#         run: docker build . -t jazle --target base
-#       - name: Cache NPM
-#         uses: actions/cache@v2
-#         with:
-#           path: /tmp/cache/.npm
-#           key: ${{ runner.os }}-build-npm-${{ hashFiles('package*.json') }}
-#           restore-keys: |
-#             ${{ runner.os }}-build-npm-
-#             ${{ runner.os }}-build-
-#             ${{ runner.os }}-
-#       - name: Install dependencies
-#         env:
-#           NPM_CONFIG_CACHE: /tmp/npm-cache
-#         run: |
-#           mkdir -p /tmp/npm-cache
-#           chmod 777 /tmp/npm-cache
-#           docker run -v$(pwd):/app \
-#             -v/tmp/cache/.npm:${NPM_CONFIG_CACHE} \
-#             -e NPM_CONFIG_CACHE \
-#             jazle \
-#             npm install
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
