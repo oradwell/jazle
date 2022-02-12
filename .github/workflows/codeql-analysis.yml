@@ -1,0 +1,50 @@
+name: CodeQL
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '17 8 * * 4'
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: javascript
+#       - name: Build container
+#         run: docker build . -t jazle --target base
+#       - name: Cache NPM
+#         uses: actions/cache@v2
+#         with:
+#           path: /tmp/cache/.npm
+#           key: ${{ runner.os }}-build-npm-${{ hashFiles('package*.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-build-npm-
+#             ${{ runner.os }}-build-
+#             ${{ runner.os }}-
+#       - name: Install dependencies
+#         env:
+#           NPM_CONFIG_CACHE: /tmp/npm-cache
+#         run: |
+#           mkdir -p /tmp/npm-cache
+#           chmod 777 /tmp/npm-cache
+#           docker run -v$(pwd):/app \
+#             -v/tmp/cache/.npm:${NPM_CONFIG_CACHE} \
+#             -e NPM_CONFIG_CACHE \
+#             jazle \
+#             npm install
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
