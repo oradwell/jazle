@@ -1,4 +1,4 @@
-FROM node:16.14.0 AS base
+FROM node:17.5.0 AS base
 WORKDIR /app
 
 FROM base AS node_modules
