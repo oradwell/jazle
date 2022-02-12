@@ -34,6 +34,13 @@ Open http://localhost:3000 in your browser.
 Production builds run on nginx
 
 ```bash
-docker build . --target prod -t jazle
+# Build node container
+docker build . -t jazle-base --target base
+# Install dependencies and package the app
+docker run -v$(pwd):/app:Z jazle-base sh -c 'npm install && npm run build'
+
+# Build production container
+docker build . -f Dockerfile.prod -t jazle
+# Run production container
 docker run -p 3000:80 jazle
 ```
