@@ -49,8 +49,11 @@ jobs:
       - name: Lint
         run: docker run -v$(pwd):/app -e CI jazle npm run lint
       - name: Create the production build
+        env:
+          REACT_APP_GOOGLE_MEASUREMENT_ID: ${{ secrets.GOOGLE_MEASUREMENT_ID }}
         run: |
           docker run -v$(pwd):/app \
+            -e REACT_APP_GOOGLE_MEASUREMENT_ID \
             jazle \
             npm run build
       - name: Log in to the Container registry
