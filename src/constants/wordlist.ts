@@ -80,6 +80,7 @@ export const WORDS = [
   'ramda',
   'react',
   'redom',
+  'redux',
   'rythm',
   'sharp',
   'shiny',
