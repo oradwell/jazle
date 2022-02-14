@@ -47,6 +47,35 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
       <p className="text-sm text-gray-500 dark:text-gray-300">
         The letter J is not in the library name in any spot.
       </p>
+
+      <p className="mt-6 text-sm text-gray-500 dark:text-gray-300">
+        JavaScript library guessing game by{' '}
+        <a
+          href="https://twitter.com/oliverradwell"
+          className="underline font-bold"
+        >
+          @oliverradwell
+        </a>
+        .
+      </p>
+      <p className="text-sm text-gray-500 dark:text-gray-300">
+        Based on{' '}
+        <a
+          href="https://github.com/cwackerfuss/react-wordle"
+          className="underline font-bold"
+        >
+          react-wordle
+        </a>
+      </p>
+      <p className="text-sm text-gray-500 dark:text-gray-300">
+        Source code:{' '}
+        <a
+          href="https://github.com/oradwell/jazle"
+          className="underline font-bold"
+        >
+          github.com/oradwell/jazle
+        </a>
+      </p>
     </BaseModal>
   )
 }
