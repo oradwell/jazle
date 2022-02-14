@@ -81,6 +81,7 @@ export const WORDS = [
   'react',
   'remix',
   'redom',
+  'redux',
   'rythm',
   'sharp',
   'shiny',
