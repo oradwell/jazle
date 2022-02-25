@@ -50,6 +50,7 @@ export const WORDS = [
   'ember',
   'solid',
   'twojs',
+  'state',
   'winxp',
   'forge',
   'video',
