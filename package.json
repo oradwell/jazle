@@ -56,5 +56,8 @@
   },
   "lint-staged": {
     "src/*.{ts,tsx,js,jsx,css,md}": "prettier --write"
+  },
+  "overrides": {
+    "nth-check": "2.0.1"
   }
 }
