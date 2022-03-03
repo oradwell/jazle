@@ -63,12 +63,13 @@ jobs:
           registry: ${{ env.CONTAINER_REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Extract metadata (tags, labels) for Docker
-        if: ${{ github.actor != 'dependabot[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ env.CONTAINER_REGISTRY }}/${{ github.repository }}
+      - name: Determine tag
+        id: tag-determiner
+        run: |
+          SECONDS_IN_YEAR=$(($(date +%s) - $(date +%s --date="$(date +%Y)-01-01 00:00:00 UTC")))
+          # Seconds in hex padded to 7 digits
+          SECONDS_HEX=$(printf "%.7x\n" ${SECONDS_IN_YEAR})
+          echo "::set-output name=tag-name::${GITHUB_REF_NAME}-$(date +%Y)-${SECONDS_HEX}"
       - name: Build and push production container image
         if: ${{ github.actor != 'dependabot[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
@@ -76,5 +77,4 @@ jobs:
           context: .
           file: Dockerfile.prod
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ env.CONTAINER_REGISTRY }}/${{ github.repository }}:${{ steps.tag-determiner.outputs.tag-name }}
