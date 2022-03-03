@@ -64,12 +64,21 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Determine tag
+        if: ${{ github.actor != 'dependabot[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         id: tag-determiner
+        env:
+          PR_NUM: ${{ github.event.pull_request.number }}
         run: |
           SECONDS_IN_YEAR=$(($(date +%s) - $(date +%s --date="$(date +%Y)-01-01 00:00:00 UTC")))
           # Seconds in hex padded to 7 digits
           SECONDS_HEX=$(printf "%.7x\n" ${SECONDS_IN_YEAR})
-          echo "::set-output name=tag-name::${GITHUB_REF_NAME}-$(date +%Y)-${SECONDS_HEX}"
+          # Replace slashes in refname since not supported in image tags
+          REF_NAME=$(echo ${GITHUB_REF_NAME} | sed -e 's~/~-~g'
+          if [ -n "${PR_NUM}" ]
+          then
+            REF_NAME=pr-${PR_NUM}
+          fi
+          echo "::set-output name=tag-name::${REF_NAME}-$(date +%Y)-${SECONDS_HEX}"
       - name: Build and push production container image
         if: ${{ github.actor != 'dependabot[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
