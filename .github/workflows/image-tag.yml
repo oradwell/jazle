@@ -1,0 +1,20 @@
+name: Image tag
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Determine tag
+        id: tag-determiner
+        run: |
+          SECONDS_IN_YEAR=$(($(date +%s) - $(date +%s --date="$(date +%Y)-01-01 00:00:00 UTC")))
+          # Seconds in hex padded to 7 digits
+          SECONDS_HEX=$(printf "%.7x\n" ${SECONDS_IN_YEAR})
+          echo "::set-output name=tag-name::${GITHUB_REF_NAME}-${SECONDS_HEX}"
+      - name: Show tag
+        run: echo ${{ steps.tag-determiner.outputs.tag-name }}
