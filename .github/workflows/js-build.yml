@@ -73,7 +73,7 @@ jobs:
           # Seconds in hex padded to 7 digits
           SECONDS_HEX=$(printf "%.7x\n" ${SECONDS_IN_YEAR})
           # Replace slashes in refname since not supported in image tags
-          REF_NAME=$(echo ${GITHUB_REF_NAME} | sed -e 's~/~-~g'
+          REF_NAME=$(echo ${GITHUB_REF_NAME} | sed -e 's~/~-~g')
           if [ -n "${PR_NUM}" ]
           then
             REF_NAME=pr-${PR_NUM}
