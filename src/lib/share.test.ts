@@ -20,7 +20,7 @@ describe('generateEmojiGrid', () => {
     expect(gridParts[1]).toBe('AAAAA')
     expect(gridParts[2]).toBe('CCCCC')
   })
-  test('generates grid for ascii', () => {
+  test('generates grid for emoji', () => {
     const guesses = ['5️⃣4️⃣3️⃣2️⃣1️⃣', '♠️♥️♦️♣️🔔', '1️⃣2️⃣3️⃣4️⃣5️⃣']
     const tiles = ['C', 'P', 'A'] // Correct, Present, Absemt
     mockSolutionGetter.mockReturnValue('1️⃣2️⃣3️⃣4️⃣5️⃣')
