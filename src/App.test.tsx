@@ -1,8 +1,6 @@
-import React from 'react'
 import { render, screen } from '@testing-library/react'
 import App from './App'
 import { GAME_TITLE } from './constants/strings'
-import { createRoot } from 'react-dom/client'
 
 beforeEach(() => {
   Object.defineProperty(window, 'matchMedia', {
@@ -23,6 +21,6 @@ beforeEach(() => {
 test('renders App component', () => {
   render(<App />)
 
-  const linkElement = screen.getByText('Game')
+  const linkElement = screen.getByText(GAME_TITLE)
   expect(linkElement).toBeInTheDocument()
 })
