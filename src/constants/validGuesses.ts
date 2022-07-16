@@ -2826,6 +2826,7 @@ export const VALID_GUESSES = [
   'lento',
   'leper',
   'lepta',
+  'lerna',
   'letup',
   'levee',
   'level',
