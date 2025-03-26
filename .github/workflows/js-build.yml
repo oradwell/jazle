@@ -16,16 +16,16 @@ env:
 jobs:
   test:
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Copy .env
         run: cp .env.dist .env
       - name: Build container
         run: docker build . -t jazle --target base
       - name: Cache NPM
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: /tmp/cache/.npm
           key: ${{ runner.os }}-build-npm-${{ hashFiles('package*.json') }}
@@ -58,7 +58,7 @@ jobs:
             npm run build
       - name: Log in to the Container registry
         if: ${{ github.actor != 'dependabot[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.CONTAINER_REGISTRY }}
           username: ${{ github.actor }}
@@ -81,7 +81,7 @@ jobs:
           echo "::set-output name=tag-name::${REF_NAME}-$(date +%Y)-${SECONDS_HEX}"
       - name: Build and push production container image
         if: ${{ github.actor != 'dependabot[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: Dockerfile.prod
