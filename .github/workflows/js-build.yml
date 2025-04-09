@@ -74,7 +74,7 @@ jobs:
           then
             REF_NAME=pr-${PR_NUM}
           fi
-          echo "::set-output name=tag-name::${REF_NAME}-$(date +%Y)-${SECONDS_HEX}"
+          echo "tag-name=${REF_NAME}-$(date +%Y)-${SECONDS_HEX}" >> $GITHUB_OUTPUT
       - name: Build and push production container image
         if: ${{ github.actor != 'dependabot[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         uses: docker/build-push-action@v6
