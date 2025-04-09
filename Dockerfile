@@ -1,4 +1,4 @@
-FROM node:20.19.0 AS base
+FROM node:23.11.0 AS base
 WORKDIR /app
 
 FROM base AS node_modules
