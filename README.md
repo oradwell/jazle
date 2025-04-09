@@ -1,7 +1,6 @@
 # Jazle
 
 JavaScript library guessing game, a Wordle clone.
-A fork of [cwackerfuss/react-wordle](https://github.com/cwackerfuss/react-wordle).
 
 See the list of accepted libraries: [wordlist.ts](src/constants/wordlist.ts)
 
@@ -43,4 +42,18 @@ docker run -v$(pwd):/app:Z jazle-base sh -c 'npm install && npm run build'
 docker build . -f Dockerfile.prod -t jazle
 # Run production container
 docker run -p 3000:80 jazle
+```
+
+## Test and Lint
+
+### Run the tests
+
+```bash
+npm run test
+```
+
+### Linting
+
+```bash
+npm run lint
 ```
